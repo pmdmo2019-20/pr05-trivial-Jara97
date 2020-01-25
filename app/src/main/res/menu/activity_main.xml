@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<item
+android:id="@+id/mnuActions"
+android:title="@string/app_name">
+
+    <item
+        android:id="@+id/mnuAbout"
+        android:title="@string/title_mnuAbout"
+        />
+    <item
+        android:id="@+id/mnuRules"
+        android:title="@string/title_mnuRules"
+        />
+    <item
+        android:id="@+id/mnuSettings"
+        android:title="@string/title_mnuSettings"
+        />
+
+</item>
+
+</menu>
