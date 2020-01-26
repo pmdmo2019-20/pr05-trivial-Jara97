@@ -7,9 +7,8 @@ import androidx.fragment.app.activityViewModels
 import es.iessaladillo.pedrojoya.pr05_trivial.R
 import es.iessaladillo.pedrojoya.pr05_trivial.base.MainActivityViewModel
 import kotlinx.android.synthetic.main.lose_fragment.*
-import kotlinx.android.synthetic.main.win_fragment.*
 
-class WinFragment : Fragment(R.layout.win_fragment) {
+class LoseFragment : Fragment(R.layout.lose_fragment) {
 
     private val viewModel: MainActivityViewModel by activityViewModels()
 
@@ -20,7 +19,7 @@ class WinFragment : Fragment(R.layout.win_fragment) {
     }
 
     private fun setListeners() {
-        btnAgain.setOnClickListener {
+        btnTry.setOnClickListener {
             viewModel.loadQuestions(viewModel.number)
             viewModel.setFragment(2)
 
@@ -28,12 +27,12 @@ class WinFragment : Fragment(R.layout.win_fragment) {
     }
 
     companion object {
-        fun newInstance() = WinFragment()
+        fun newInstance() = LoseFragment()
     }
     private fun setupViews() {
         (requireActivity() as AppCompatActivity).supportActionBar?.run {
             setDisplayHomeAsUpEnabled(true)
-            setTitle(R.string.title_win)
+            setTitle(R.string.game_over_title)
         }
     }
 

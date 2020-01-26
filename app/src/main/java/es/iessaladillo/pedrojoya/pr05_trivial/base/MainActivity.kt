@@ -1,5 +1,6 @@
 package es.iessaladillo.pedrojoya.pr05_trivial.base
 
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -7,13 +8,13 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.fragment.app.commit
 import androidx.lifecycle.observe
+import androidx.preference.PreferenceManager
 import es.iessaladillo.pedrojoya.pr05_trivial.R
 import es.iessaladillo.pedrojoya.pr05_trivial.fragments.*
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainActivityViewModel by viewModels()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +33,11 @@ class MainActivity : AppCompatActivity() {
     private fun setObservers() {
         viewModel.fragment.observe(this){
             changeFragment(it)
+        }
+        viewModel.response.observe(this){
+            if(it){
+                viewModel.setFragment(1)
+            }
         }
     }
 
@@ -55,6 +61,9 @@ class MainActivity : AppCompatActivity() {
             6 -> supportFragmentManager.commit {
                 replace(R.id.ContainerView, WinFragment.newInstance()).run { setTitle(R.string.title_win) }
             }
+            7 -> supportFragmentManager.commit {
+                replace(R.id.ContainerView, LoseFragment.newInstance()).run { setTitle(R.string.game_over_title) }
+            }
         }
     }
 
@@ -65,13 +74,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if(viewModel.fragment.value==1){
-            super.onBackPressed()
+        if(!viewModel.dialog){
+            if(viewModel.fragment.value==1){
+                super.onBackPressed()
+            }
+            else{
+                viewModel.setFragment(1)
+            }
         }
         else{
-            viewModel.setFragment(1)
-
+            if(viewModel.fragment.value==2){
+                showConfirmationDialog()
+            }
+            else{
+                viewModel.setFragment(1)
+            }
         }
+
+    }
+
+    private fun showConfirmationDialog() {
+        ConfirmationDialogFragment()
+            .show(supportFragmentManager, "")
     }
 
 

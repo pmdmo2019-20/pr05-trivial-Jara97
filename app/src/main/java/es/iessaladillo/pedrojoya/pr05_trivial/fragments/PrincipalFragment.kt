@@ -1,5 +1,6 @@
 package es.iessaladillo.pedrojoya.pr05_trivial.fragments
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
@@ -7,6 +8,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.preference.PreferenceManager
 
 import es.iessaladillo.pedrojoya.pr05_trivial.R
 import es.iessaladillo.pedrojoya.pr05_trivial.base.MainActivityViewModel
@@ -17,6 +19,10 @@ class PrincipalFragment : Fragment(R.layout.principal_fragment) {
 
     private val viewModel: MainActivityViewModel by activityViewModels()
 
+    private val settings: SharedPreferences by lazy {
+        PreferenceManager.getDefaultSharedPreferences(context)
+    }
+
     companion object {
         fun newInstance() = PrincipalFragment()
     }
@@ -25,13 +31,16 @@ class PrincipalFragment : Fragment(R.layout.principal_fragment) {
         super.onActivityCreated(savedInstanceState)
         setListeners()
         setupViews()
+        viewModel.number= settings.getInt("questions",4)
+        viewModel.dialog= settings.getBoolean("confirmation",false)
         setHasOptionsMenu(true)
     }
+
 
    private fun setListeners(){
        btnPlay2.setOnClickListener {
             viewModel.setFragment(2)
-            viewModel.loadQuestions(5)
+            viewModel.loadQuestions(viewModel.number)
         }
     }
 

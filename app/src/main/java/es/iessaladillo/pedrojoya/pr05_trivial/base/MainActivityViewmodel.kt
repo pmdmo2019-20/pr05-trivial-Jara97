@@ -10,6 +10,13 @@ class MainActivityViewModel : ViewModel() {
 
     private var questionList: List<Question> = emptyList()
 
+    var dialog:Boolean=false
+    var number:Int =4
+
+    private val _response: MutableLiveData<Boolean> = MutableLiveData()
+    val response: LiveData<Boolean>
+        get() = _response
+
     private val _fragment: MutableLiveData<Int> = MutableLiveData()
     val fragment: LiveData<Int>
         get() = _fragment
@@ -22,8 +29,13 @@ class MainActivityViewModel : ViewModel() {
         _fragment.value=fragment
     }
 
+    fun setResponse(value: Boolean) {
+        _response.value = value
+    }
+
     fun loadQuestions(number:Int){
         questionList= getQuestions().subList(0,number)
+        _questionNum.value=1
     }
 
     fun getQuestion(number:Int):Question{
@@ -31,9 +43,8 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun nextQuestion(){
-        if(_questionNum.value!=5){
-            _questionNum.value= _questionNum.value?.plus(1)
-        }
+        _questionNum.value= _questionNum.value?.plus(1)
+
     }
 
 }
